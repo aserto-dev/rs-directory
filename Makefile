@@ -26,8 +26,10 @@ generate:
 
 .PHONY: build
 build:
+	@echo -e "${ATTN_COLOR}==> $@ ${NO_COLOR}"
 	@cargo build
 
 .PHONY: clean
 clean:
 	@echo -e "${ATTN_COLOR}==> $@ ${NO_COLOR}"
+	@cargo clean
