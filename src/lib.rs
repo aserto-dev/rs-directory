@@ -29,6 +29,13 @@ pub mod aserto {
                 // @@protoc_insertion_point(aserto.directory.reader.v2)
             }
         }
+        pub mod schema {
+            // @@protoc_insertion_point(attribute:aserto.directory.schema.v2)
+            pub mod v2 {
+                include!("aserto.directory.schema.v2.rs");
+                // @@protoc_insertion_point(aserto.directory.schema.v2)
+            }
+        }
         pub mod writer {
             // @@protoc_insertion_point(attribute:aserto.directory.writer.v2)
             pub mod v2 {

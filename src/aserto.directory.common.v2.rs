@@ -166,7 +166,7 @@ pub struct ObjectDependency {
     /// relation identifier
     #[prost(string, tag="5")]
     pub relation: ::prost::alloc::string::String,
-    /// object type id of target object 
+    /// object type id of target object
     #[prost(string, tag="7")]
     pub subject_type: ::prost::alloc::string::String,
     /// object id (uuid) of target object
@@ -218,7 +218,7 @@ pub struct RelationTypeIdentifier {
     #[prost(string, optional, tag="3")]
     pub object_type: ::core::option::Option<::prost::alloc::string::String>,
 }
-/// Object identifier 
+/// Object identifier
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ObjectIdentifier {
     /// object type
