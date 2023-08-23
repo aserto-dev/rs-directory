@@ -1033,9 +1033,21 @@ impl serde::Serialize for GetObjectRequest {
         if self.param.is_some() {
             len += 1;
         }
+        if self.with_relations.is_some() {
+            len += 1;
+        }
+        if self.page.is_some() {
+            len += 1;
+        }
         let mut struct_ser = serializer.serialize_struct("aserto.directory.reader.v2.GetObjectRequest", len)?;
         if let Some(v) = self.param.as_ref() {
             struct_ser.serialize_field("param", v)?;
+        }
+        if let Some(v) = self.with_relations.as_ref() {
+            struct_ser.serialize_field("withRelations", v)?;
+        }
+        if let Some(v) = self.page.as_ref() {
+            struct_ser.serialize_field("page", v)?;
         }
         struct_ser.end()
     }
@@ -1048,11 +1060,16 @@ impl<'de> serde::Deserialize<'de> for GetObjectRequest {
     {
         const FIELDS: &[&str] = &[
             "param",
+            "with_relations",
+            "withRelations",
+            "page",
         ];
 
         #[allow(clippy::enum_variant_names)]
         enum GeneratedField {
             Param,
+            WithRelations,
+            Page,
         }
         impl<'de> serde::Deserialize<'de> for GeneratedField {
             fn deserialize<D>(deserializer: D) -> std::result::Result<GeneratedField, D::Error>
@@ -1075,6 +1092,8 @@ impl<'de> serde::Deserialize<'de> for GetObjectRequest {
                     {
                         match value {
                             "param" => Ok(GeneratedField::Param),
+                            "withRelations" | "with_relations" => Ok(GeneratedField::WithRelations),
+                            "page" => Ok(GeneratedField::Page),
                             _ => Err(serde::de::Error::unknown_field(value, FIELDS)),
                         }
                     }
@@ -1095,6 +1114,8 @@ impl<'de> serde::Deserialize<'de> for GetObjectRequest {
                     V: serde::de::MapAccess<'de>,
             {
                 let mut param__ = None;
+                let mut with_relations__ = None;
+                let mut page__ = None;
                 while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::Param => {
@@ -1103,10 +1124,24 @@ impl<'de> serde::Deserialize<'de> for GetObjectRequest {
                             }
                             param__ = map.next_value()?;
                         }
+                        GeneratedField::WithRelations => {
+                            if with_relations__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("withRelations"));
+                            }
+                            with_relations__ = map.next_value()?;
+                        }
+                        GeneratedField::Page => {
+                            if page__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("page"));
+                            }
+                            page__ = map.next_value()?;
+                        }
                     }
                 }
                 Ok(GetObjectRequest {
                     param: param__,
+                    with_relations: with_relations__,
+                    page: page__,
                 })
             }
         }
@@ -1124,9 +1159,21 @@ impl serde::Serialize for GetObjectResponse {
         if self.result.is_some() {
             len += 1;
         }
+        if !self.relations.is_empty() {
+            len += 1;
+        }
+        if self.page.is_some() {
+            len += 1;
+        }
         let mut struct_ser = serializer.serialize_struct("aserto.directory.reader.v2.GetObjectResponse", len)?;
         if let Some(v) = self.result.as_ref() {
             struct_ser.serialize_field("result", v)?;
+        }
+        if !self.relations.is_empty() {
+            struct_ser.serialize_field("relations", &self.relations)?;
+        }
+        if let Some(v) = self.page.as_ref() {
+            struct_ser.serialize_field("page", v)?;
         }
         struct_ser.end()
     }
@@ -1139,11 +1186,15 @@ impl<'de> serde::Deserialize<'de> for GetObjectResponse {
     {
         const FIELDS: &[&str] = &[
             "result",
+            "relations",
+            "page",
         ];
 
         #[allow(clippy::enum_variant_names)]
         enum GeneratedField {
             Result,
+            Relations,
+            Page,
         }
         impl<'de> serde::Deserialize<'de> for GeneratedField {
             fn deserialize<D>(deserializer: D) -> std::result::Result<GeneratedField, D::Error>
@@ -1166,6 +1217,8 @@ impl<'de> serde::Deserialize<'de> for GetObjectResponse {
                     {
                         match value {
                             "result" => Ok(GeneratedField::Result),
+                            "relations" => Ok(GeneratedField::Relations),
+                            "page" => Ok(GeneratedField::Page),
                             _ => Err(serde::de::Error::unknown_field(value, FIELDS)),
                         }
                     }
@@ -1186,6 +1239,8 @@ impl<'de> serde::Deserialize<'de> for GetObjectResponse {
                     V: serde::de::MapAccess<'de>,
             {
                 let mut result__ = None;
+                let mut relations__ = None;
+                let mut page__ = None;
                 while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::Result => {
@@ -1194,10 +1249,24 @@ impl<'de> serde::Deserialize<'de> for GetObjectResponse {
                             }
                             result__ = map.next_value()?;
                         }
+                        GeneratedField::Relations => {
+                            if relations__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("relations"));
+                            }
+                            relations__ = Some(map.next_value()?);
+                        }
+                        GeneratedField::Page => {
+                            if page__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("page"));
+                            }
+                            page__ = map.next_value()?;
+                        }
                     }
                 }
                 Ok(GetObjectResponse {
                     result: result__,
+                    relations: relations__.unwrap_or_default(),
+                    page: page__,
                 })
             }
         }

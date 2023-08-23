@@ -10,9 +10,15 @@ impl serde::Serialize for DeleteObjectRequest {
         if self.param.is_some() {
             len += 1;
         }
+        if self.with_relations.is_some() {
+            len += 1;
+        }
         let mut struct_ser = serializer.serialize_struct("aserto.directory.writer.v2.DeleteObjectRequest", len)?;
         if let Some(v) = self.param.as_ref() {
             struct_ser.serialize_field("param", v)?;
+        }
+        if let Some(v) = self.with_relations.as_ref() {
+            struct_ser.serialize_field("withRelations", v)?;
         }
         struct_ser.end()
     }
@@ -25,11 +31,14 @@ impl<'de> serde::Deserialize<'de> for DeleteObjectRequest {
     {
         const FIELDS: &[&str] = &[
             "param",
+            "with_relations",
+            "withRelations",
         ];
 
         #[allow(clippy::enum_variant_names)]
         enum GeneratedField {
             Param,
+            WithRelations,
         }
         impl<'de> serde::Deserialize<'de> for GeneratedField {
             fn deserialize<D>(deserializer: D) -> std::result::Result<GeneratedField, D::Error>
@@ -52,6 +61,7 @@ impl<'de> serde::Deserialize<'de> for DeleteObjectRequest {
                     {
                         match value {
                             "param" => Ok(GeneratedField::Param),
+                            "withRelations" | "with_relations" => Ok(GeneratedField::WithRelations),
                             _ => Err(serde::de::Error::unknown_field(value, FIELDS)),
                         }
                     }
@@ -72,6 +82,7 @@ impl<'de> serde::Deserialize<'de> for DeleteObjectRequest {
                     V: serde::de::MapAccess<'de>,
             {
                 let mut param__ = None;
+                let mut with_relations__ = None;
                 while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::Param => {
@@ -80,10 +91,17 @@ impl<'de> serde::Deserialize<'de> for DeleteObjectRequest {
                             }
                             param__ = map.next_value()?;
                         }
+                        GeneratedField::WithRelations => {
+                            if with_relations__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("withRelations"));
+                            }
+                            with_relations__ = map.next_value()?;
+                        }
                     }
                 }
                 Ok(DeleteObjectRequest {
                     param: param__,
+                    with_relations: with_relations__,
                 })
             }
         }

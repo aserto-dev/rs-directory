@@ -40,7 +40,7 @@ pub struct GetRelationTypeResponse {
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetRelationTypesRequest {
-    /// object type selector    
+    /// object type selector
     #[prost(message, optional, tag="1")]
     pub param: ::core::option::Option<super::super::common::v2::ObjectTypeIdentifier>,
     /// pagination request
@@ -61,12 +61,24 @@ pub struct GetObjectRequest {
     /// object selector
     #[prost(message, optional, tag="1")]
     pub param: ::core::option::Option<super::super::common::v2::ObjectIdentifier>,
+    /// materialize the object relations objects
+    #[prost(bool, optional, tag="2")]
+    pub with_relations: ::core::option::Option<bool>,
+    /// pagination request
+    #[prost(message, optional, tag="9")]
+    pub page: ::core::option::Option<super::super::common::v2::PaginationRequest>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetObjectResponse {
     /// object instance
     #[prost(message, optional, tag="1")]
     pub result: ::core::option::Option<super::super::common::v2::Object>,
+    /// object relations
+    #[prost(message, repeated, tag="4")]
+    pub relations: ::prost::alloc::vec::Vec<super::super::common::v2::Relation>,
+    /// pagination response
+    #[prost(message, optional, tag="9")]
+    pub page: ::core::option::Option<super::super::common::v2::PaginationResponse>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetObjectManyRequest {
@@ -178,7 +190,7 @@ pub struct CheckPermissionRequest {
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CheckPermissionResponse {
-    /// check result (BOOL)
+    /// check result
     #[prost(bool, tag="1")]
     pub check: bool,
     /// trace information
@@ -202,7 +214,7 @@ pub struct CheckRelationRequest {
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CheckRelationResponse {
-    /// check result (BOOL)
+    /// check result
     #[prost(bool, tag="1")]
     pub check: bool,
     /// trace information
@@ -211,7 +223,7 @@ pub struct CheckRelationResponse {
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CheckResponse {
-    /// check result (BOOL)
+    /// check result
     #[prost(bool, tag="1")]
     pub check: bool,
     /// trace information

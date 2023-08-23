@@ -1,7 +1,7 @@
 // @generated
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetObjectTypeRequest {
-    /// 
+    /// object type instance
     #[prost(message, optional, tag="1")]
     pub object_type: ::core::option::Option<super::super::common::v2::ObjectType>,
 }
@@ -13,7 +13,7 @@ pub struct SetObjectTypeResponse {
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DeleteObjectTypeRequest {
-    /// 
+    /// object type identifier
     #[prost(message, optional, tag="1")]
     pub param: ::core::option::Option<super::super::common::v2::ObjectTypeIdentifier>,
 }
@@ -25,7 +25,7 @@ pub struct DeleteObjectTypeResponse {
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetRelationTypeRequest {
-    /// 
+    /// relation type instance
     #[prost(message, optional, tag="1")]
     pub relation_type: ::core::option::Option<super::super::common::v2::RelationType>,
 }
@@ -37,7 +37,7 @@ pub struct SetRelationTypeResponse {
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DeleteRelationTypeRequest {
-    /// 
+    /// relation type identifier
     #[prost(message, optional, tag="1")]
     pub param: ::core::option::Option<super::super::common::v2::RelationTypeIdentifier>,
 }
@@ -49,7 +49,7 @@ pub struct DeleteRelationTypeResponse {
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetPermissionRequest {
-    /// 
+    /// permission instance
     #[prost(message, optional, tag="1")]
     pub permission: ::core::option::Option<super::super::common::v2::Permission>,
 }
@@ -61,7 +61,7 @@ pub struct SetPermissionResponse {
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DeletePermissionRequest {
-    /// 
+    /// permission identifier
     #[prost(message, optional, tag="1")]
     pub param: ::core::option::Option<super::super::common::v2::PermissionIdentifier>,
 }
@@ -73,7 +73,7 @@ pub struct DeletePermissionResponse {
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetObjectRequest {
-    /// 
+    /// object instance
     #[prost(message, optional, tag="1")]
     pub object: ::core::option::Option<super::super::common::v2::Object>,
 }
@@ -85,9 +85,12 @@ pub struct SetObjectResponse {
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DeleteObjectRequest {
-    /// 
+    /// object identifier
     #[prost(message, optional, tag="1")]
     pub param: ::core::option::Option<super::super::common::v2::ObjectIdentifier>,
+    /// delete object relations, both object and subject relations.
+    #[prost(bool, optional, tag="2")]
+    pub with_relations: ::core::option::Option<bool>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DeleteObjectResponse {
@@ -97,7 +100,7 @@ pub struct DeleteObjectResponse {
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetRelationRequest {
-    /// 
+    /// relation instance
     #[prost(message, optional, tag="1")]
     pub relation: ::core::option::Option<super::super::common::v2::Relation>,
 }
@@ -109,7 +112,7 @@ pub struct SetRelationResponse {
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DeleteRelationRequest {
-    /// 
+    /// relation identifier
     #[prost(message, optional, tag="1")]
     pub param: ::core::option::Option<super::super::common::v2::RelationIdentifier>,
 }

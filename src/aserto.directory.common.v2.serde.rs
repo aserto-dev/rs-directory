@@ -89,9 +89,6 @@ impl serde::Serialize for Object {
     {
         use serde::ser::SerializeStruct;
         let mut len = 0;
-        if !self.id.is_empty() {
-            len += 1;
-        }
         if !self.key.is_empty() {
             len += 1;
         }
@@ -110,16 +107,10 @@ impl serde::Serialize for Object {
         if self.updated_at.is_some() {
             len += 1;
         }
-        if self.deleted_at.is_some() {
-            len += 1;
-        }
         if !self.hash.is_empty() {
             len += 1;
         }
         let mut struct_ser = serializer.serialize_struct("aserto.directory.common.v2.Object", len)?;
-        if !self.id.is_empty() {
-            struct_ser.serialize_field("id", &self.id)?;
-        }
         if !self.key.is_empty() {
             struct_ser.serialize_field("key", &self.key)?;
         }
@@ -138,9 +129,6 @@ impl serde::Serialize for Object {
         if let Some(v) = self.updated_at.as_ref() {
             struct_ser.serialize_field("updatedAt", v)?;
         }
-        if let Some(v) = self.deleted_at.as_ref() {
-            struct_ser.serialize_field("deletedAt", v)?;
-        }
         if !self.hash.is_empty() {
             struct_ser.serialize_field("hash", &self.hash)?;
         }
@@ -154,7 +142,6 @@ impl<'de> serde::Deserialize<'de> for Object {
         D: serde::Deserializer<'de>,
     {
         const FIELDS: &[&str] = &[
-            "id",
             "key",
             "type",
             "display_name",
@@ -164,21 +151,17 @@ impl<'de> serde::Deserialize<'de> for Object {
             "createdAt",
             "updated_at",
             "updatedAt",
-            "deleted_at",
-            "deletedAt",
             "hash",
         ];
 
         #[allow(clippy::enum_variant_names)]
         enum GeneratedField {
-            Id,
             Key,
             Type,
             DisplayName,
             Properties,
             CreatedAt,
             UpdatedAt,
-            DeletedAt,
             Hash,
         }
         impl<'de> serde::Deserialize<'de> for GeneratedField {
@@ -201,14 +184,12 @@ impl<'de> serde::Deserialize<'de> for Object {
                         E: serde::de::Error,
                     {
                         match value {
-                            "id" => Ok(GeneratedField::Id),
                             "key" => Ok(GeneratedField::Key),
                             "type" => Ok(GeneratedField::Type),
                             "displayName" | "display_name" => Ok(GeneratedField::DisplayName),
                             "properties" => Ok(GeneratedField::Properties),
                             "createdAt" | "created_at" => Ok(GeneratedField::CreatedAt),
                             "updatedAt" | "updated_at" => Ok(GeneratedField::UpdatedAt),
-                            "deletedAt" | "deleted_at" => Ok(GeneratedField::DeletedAt),
                             "hash" => Ok(GeneratedField::Hash),
                             _ => Err(serde::de::Error::unknown_field(value, FIELDS)),
                         }
@@ -229,23 +210,15 @@ impl<'de> serde::Deserialize<'de> for Object {
                 where
                     V: serde::de::MapAccess<'de>,
             {
-                let mut id__ = None;
                 let mut key__ = None;
                 let mut r#type__ = None;
                 let mut display_name__ = None;
                 let mut properties__ = None;
                 let mut created_at__ = None;
                 let mut updated_at__ = None;
-                let mut deleted_at__ = None;
                 let mut hash__ = None;
                 while let Some(k) = map.next_key()? {
                     match k {
-                        GeneratedField::Id => {
-                            if id__.is_some() {
-                                return Err(serde::de::Error::duplicate_field("id"));
-                            }
-                            id__ = Some(map.next_value()?);
-                        }
                         GeneratedField::Key => {
                             if key__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("key"));
@@ -282,12 +255,6 @@ impl<'de> serde::Deserialize<'de> for Object {
                             }
                             updated_at__ = map.next_value()?;
                         }
-                        GeneratedField::DeletedAt => {
-                            if deleted_at__.is_some() {
-                                return Err(serde::de::Error::duplicate_field("deletedAt"));
-                            }
-                            deleted_at__ = map.next_value()?;
-                        }
                         GeneratedField::Hash => {
                             if hash__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("hash"));
@@ -297,14 +264,12 @@ impl<'de> serde::Deserialize<'de> for Object {
                     }
                 }
                 Ok(Object {
-                    id: id__.unwrap_or_default(),
                     key: key__.unwrap_or_default(),
                     r#type: r#type__.unwrap_or_default(),
                     display_name: display_name__.unwrap_or_default(),
                     properties: properties__,
                     created_at: created_at__,
                     updated_at: updated_at__,
-                    deleted_at: deleted_at__,
                     hash: hash__.unwrap_or_default(),
                 })
             }
@@ -323,9 +288,6 @@ impl serde::Serialize for ObjectDependency {
         if !self.object_type.is_empty() {
             len += 1;
         }
-        if !self.object_id.is_empty() {
-            len += 1;
-        }
         if !self.object_key.is_empty() {
             len += 1;
         }
@@ -333,9 +295,6 @@ impl serde::Serialize for ObjectDependency {
             len += 1;
         }
         if !self.subject_type.is_empty() {
-            len += 1;
-        }
-        if !self.subject_id.is_empty() {
             len += 1;
         }
         if !self.subject_key.is_empty() {
@@ -354,9 +313,6 @@ impl serde::Serialize for ObjectDependency {
         if !self.object_type.is_empty() {
             struct_ser.serialize_field("objectType", &self.object_type)?;
         }
-        if !self.object_id.is_empty() {
-            struct_ser.serialize_field("objectId", &self.object_id)?;
-        }
         if !self.object_key.is_empty() {
             struct_ser.serialize_field("objectKey", &self.object_key)?;
         }
@@ -365,9 +321,6 @@ impl serde::Serialize for ObjectDependency {
         }
         if !self.subject_type.is_empty() {
             struct_ser.serialize_field("subjectType", &self.subject_type)?;
-        }
-        if !self.subject_id.is_empty() {
-            struct_ser.serialize_field("subjectId", &self.subject_id)?;
         }
         if !self.subject_key.is_empty() {
             struct_ser.serialize_field("subjectKey", &self.subject_key)?;
@@ -393,15 +346,11 @@ impl<'de> serde::Deserialize<'de> for ObjectDependency {
         const FIELDS: &[&str] = &[
             "object_type",
             "objectType",
-            "object_id",
-            "objectId",
             "object_key",
             "objectKey",
             "relation",
             "subject_type",
             "subjectType",
-            "subject_id",
-            "subjectId",
             "subject_key",
             "subjectKey",
             "depth",
@@ -413,11 +362,9 @@ impl<'de> serde::Deserialize<'de> for ObjectDependency {
         #[allow(clippy::enum_variant_names)]
         enum GeneratedField {
             ObjectType,
-            ObjectId,
             ObjectKey,
             Relation,
             SubjectType,
-            SubjectId,
             SubjectKey,
             Depth,
             IsCycle,
@@ -444,11 +391,9 @@ impl<'de> serde::Deserialize<'de> for ObjectDependency {
                     {
                         match value {
                             "objectType" | "object_type" => Ok(GeneratedField::ObjectType),
-                            "objectId" | "object_id" => Ok(GeneratedField::ObjectId),
                             "objectKey" | "object_key" => Ok(GeneratedField::ObjectKey),
                             "relation" => Ok(GeneratedField::Relation),
                             "subjectType" | "subject_type" => Ok(GeneratedField::SubjectType),
-                            "subjectId" | "subject_id" => Ok(GeneratedField::SubjectId),
                             "subjectKey" | "subject_key" => Ok(GeneratedField::SubjectKey),
                             "depth" => Ok(GeneratedField::Depth),
                             "isCycle" | "is_cycle" => Ok(GeneratedField::IsCycle),
@@ -473,11 +418,9 @@ impl<'de> serde::Deserialize<'de> for ObjectDependency {
                     V: serde::de::MapAccess<'de>,
             {
                 let mut object_type__ = None;
-                let mut object_id__ = None;
                 let mut object_key__ = None;
                 let mut relation__ = None;
                 let mut subject_type__ = None;
-                let mut subject_id__ = None;
                 let mut subject_key__ = None;
                 let mut depth__ = None;
                 let mut is_cycle__ = None;
@@ -489,12 +432,6 @@ impl<'de> serde::Deserialize<'de> for ObjectDependency {
                                 return Err(serde::de::Error::duplicate_field("objectType"));
                             }
                             object_type__ = Some(map.next_value()?);
-                        }
-                        GeneratedField::ObjectId => {
-                            if object_id__.is_some() {
-                                return Err(serde::de::Error::duplicate_field("objectId"));
-                            }
-                            object_id__ = Some(map.next_value()?);
                         }
                         GeneratedField::ObjectKey => {
                             if object_key__.is_some() {
@@ -513,12 +450,6 @@ impl<'de> serde::Deserialize<'de> for ObjectDependency {
                                 return Err(serde::de::Error::duplicate_field("subjectType"));
                             }
                             subject_type__ = Some(map.next_value()?);
-                        }
-                        GeneratedField::SubjectId => {
-                            if subject_id__.is_some() {
-                                return Err(serde::de::Error::duplicate_field("subjectId"));
-                            }
-                            subject_id__ = Some(map.next_value()?);
                         }
                         GeneratedField::SubjectKey => {
                             if subject_key__.is_some() {
@@ -550,11 +481,9 @@ impl<'de> serde::Deserialize<'de> for ObjectDependency {
                 }
                 Ok(ObjectDependency {
                     object_type: object_type__.unwrap_or_default(),
-                    object_id: object_id__.unwrap_or_default(),
                     object_key: object_key__.unwrap_or_default(),
                     relation: relation__.unwrap_or_default(),
                     subject_type: subject_type__.unwrap_or_default(),
-                    subject_id: subject_id__.unwrap_or_default(),
                     subject_key: subject_key__.unwrap_or_default(),
                     depth: depth__.unwrap_or_default(),
                     is_cycle: is_cycle__.unwrap_or_default(),
@@ -576,18 +505,12 @@ impl serde::Serialize for ObjectIdentifier {
         if self.r#type.is_some() {
             len += 1;
         }
-        if self.id.is_some() {
-            len += 1;
-        }
         if self.key.is_some() {
             len += 1;
         }
         let mut struct_ser = serializer.serialize_struct("aserto.directory.common.v2.ObjectIdentifier", len)?;
         if let Some(v) = self.r#type.as_ref() {
             struct_ser.serialize_field("type", v)?;
-        }
-        if let Some(v) = self.id.as_ref() {
-            struct_ser.serialize_field("id", v)?;
         }
         if let Some(v) = self.key.as_ref() {
             struct_ser.serialize_field("key", v)?;
@@ -603,14 +526,12 @@ impl<'de> serde::Deserialize<'de> for ObjectIdentifier {
     {
         const FIELDS: &[&str] = &[
             "type",
-            "id",
             "key",
         ];
 
         #[allow(clippy::enum_variant_names)]
         enum GeneratedField {
             Type,
-            Id,
             Key,
         }
         impl<'de> serde::Deserialize<'de> for GeneratedField {
@@ -634,7 +555,6 @@ impl<'de> serde::Deserialize<'de> for ObjectIdentifier {
                     {
                         match value {
                             "type" => Ok(GeneratedField::Type),
-                            "id" => Ok(GeneratedField::Id),
                             "key" => Ok(GeneratedField::Key),
                             _ => Err(serde::de::Error::unknown_field(value, FIELDS)),
                         }
@@ -656,7 +576,6 @@ impl<'de> serde::Deserialize<'de> for ObjectIdentifier {
                     V: serde::de::MapAccess<'de>,
             {
                 let mut r#type__ = None;
-                let mut id__ = None;
                 let mut key__ = None;
                 while let Some(k) = map.next_key()? {
                     match k {
@@ -665,12 +584,6 @@ impl<'de> serde::Deserialize<'de> for ObjectIdentifier {
                                 return Err(serde::de::Error::duplicate_field("type"));
                             }
                             r#type__ = map.next_value()?;
-                        }
-                        GeneratedField::Id => {
-                            if id__.is_some() {
-                                return Err(serde::de::Error::duplicate_field("id"));
-                            }
-                            id__ = map.next_value()?;
                         }
                         GeneratedField::Key => {
                             if key__.is_some() {
@@ -682,7 +595,6 @@ impl<'de> serde::Deserialize<'de> for ObjectIdentifier {
                 }
                 Ok(ObjectIdentifier {
                     r#type: r#type__,
-                    id: id__,
                     key: key__,
                 })
             }
@@ -698,9 +610,6 @@ impl serde::Serialize for ObjectType {
     {
         use serde::ser::SerializeStruct;
         let mut len = 0;
-        if self.id != 0 {
-            len += 1;
-        }
         if !self.name.is_empty() {
             len += 1;
         }
@@ -725,16 +634,10 @@ impl serde::Serialize for ObjectType {
         if self.updated_at.is_some() {
             len += 1;
         }
-        if self.deleted_at.is_some() {
-            len += 1;
-        }
         if !self.hash.is_empty() {
             len += 1;
         }
         let mut struct_ser = serializer.serialize_struct("aserto.directory.common.v2.ObjectType", len)?;
-        if self.id != 0 {
-            struct_ser.serialize_field("id", &self.id)?;
-        }
         if !self.name.is_empty() {
             struct_ser.serialize_field("name", &self.name)?;
         }
@@ -759,9 +662,6 @@ impl serde::Serialize for ObjectType {
         if let Some(v) = self.updated_at.as_ref() {
             struct_ser.serialize_field("updatedAt", v)?;
         }
-        if let Some(v) = self.deleted_at.as_ref() {
-            struct_ser.serialize_field("deletedAt", v)?;
-        }
         if !self.hash.is_empty() {
             struct_ser.serialize_field("hash", &self.hash)?;
         }
@@ -775,7 +675,6 @@ impl<'de> serde::Deserialize<'de> for ObjectType {
         D: serde::Deserializer<'de>,
     {
         const FIELDS: &[&str] = &[
-            "id",
             "name",
             "display_name",
             "displayName",
@@ -788,14 +687,11 @@ impl<'de> serde::Deserialize<'de> for ObjectType {
             "createdAt",
             "updated_at",
             "updatedAt",
-            "deleted_at",
-            "deletedAt",
             "hash",
         ];
 
         #[allow(clippy::enum_variant_names)]
         enum GeneratedField {
-            Id,
             Name,
             DisplayName,
             IsSubject,
@@ -804,7 +700,6 @@ impl<'de> serde::Deserialize<'de> for ObjectType {
             Schema,
             CreatedAt,
             UpdatedAt,
-            DeletedAt,
             Hash,
         }
         impl<'de> serde::Deserialize<'de> for GeneratedField {
@@ -827,7 +722,6 @@ impl<'de> serde::Deserialize<'de> for ObjectType {
                         E: serde::de::Error,
                     {
                         match value {
-                            "id" => Ok(GeneratedField::Id),
                             "name" => Ok(GeneratedField::Name),
                             "displayName" | "display_name" => Ok(GeneratedField::DisplayName),
                             "isSubject" | "is_subject" => Ok(GeneratedField::IsSubject),
@@ -836,7 +730,6 @@ impl<'de> serde::Deserialize<'de> for ObjectType {
                             "schema" => Ok(GeneratedField::Schema),
                             "createdAt" | "created_at" => Ok(GeneratedField::CreatedAt),
                             "updatedAt" | "updated_at" => Ok(GeneratedField::UpdatedAt),
-                            "deletedAt" | "deleted_at" => Ok(GeneratedField::DeletedAt),
                             "hash" => Ok(GeneratedField::Hash),
                             _ => Err(serde::de::Error::unknown_field(value, FIELDS)),
                         }
@@ -857,7 +750,6 @@ impl<'de> serde::Deserialize<'de> for ObjectType {
                 where
                     V: serde::de::MapAccess<'de>,
             {
-                let mut id__ = None;
                 let mut name__ = None;
                 let mut display_name__ = None;
                 let mut is_subject__ = None;
@@ -866,18 +758,9 @@ impl<'de> serde::Deserialize<'de> for ObjectType {
                 let mut schema__ = None;
                 let mut created_at__ = None;
                 let mut updated_at__ = None;
-                let mut deleted_at__ = None;
                 let mut hash__ = None;
                 while let Some(k) = map.next_key()? {
                     match k {
-                        GeneratedField::Id => {
-                            if id__.is_some() {
-                                return Err(serde::de::Error::duplicate_field("id"));
-                            }
-                            id__ = 
-                                Some(map.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
-                            ;
-                        }
                         GeneratedField::Name => {
                             if name__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("name"));
@@ -930,12 +813,6 @@ impl<'de> serde::Deserialize<'de> for ObjectType {
                             }
                             updated_at__ = map.next_value()?;
                         }
-                        GeneratedField::DeletedAt => {
-                            if deleted_at__.is_some() {
-                                return Err(serde::de::Error::duplicate_field("deletedAt"));
-                            }
-                            deleted_at__ = map.next_value()?;
-                        }
                         GeneratedField::Hash => {
                             if hash__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("hash"));
@@ -945,7 +822,6 @@ impl<'de> serde::Deserialize<'de> for ObjectType {
                     }
                 }
                 Ok(ObjectType {
-                    id: id__.unwrap_or_default(),
                     name: name__.unwrap_or_default(),
                     display_name: display_name__.unwrap_or_default(),
                     is_subject: is_subject__.unwrap_or_default(),
@@ -954,7 +830,6 @@ impl<'de> serde::Deserialize<'de> for ObjectType {
                     schema: schema__,
                     created_at: created_at__,
                     updated_at: updated_at__,
-                    deleted_at: deleted_at__,
                     hash: hash__.unwrap_or_default(),
                 })
             }
@@ -970,16 +845,10 @@ impl serde::Serialize for ObjectTypeIdentifier {
     {
         use serde::ser::SerializeStruct;
         let mut len = 0;
-        if self.id.is_some() {
-            len += 1;
-        }
         if self.name.is_some() {
             len += 1;
         }
         let mut struct_ser = serializer.serialize_struct("aserto.directory.common.v2.ObjectTypeIdentifier", len)?;
-        if let Some(v) = self.id.as_ref() {
-            struct_ser.serialize_field("id", v)?;
-        }
         if let Some(v) = self.name.as_ref() {
             struct_ser.serialize_field("name", v)?;
         }
@@ -993,13 +862,11 @@ impl<'de> serde::Deserialize<'de> for ObjectTypeIdentifier {
         D: serde::Deserializer<'de>,
     {
         const FIELDS: &[&str] = &[
-            "id",
             "name",
         ];
 
         #[allow(clippy::enum_variant_names)]
         enum GeneratedField {
-            Id,
             Name,
         }
         impl<'de> serde::Deserialize<'de> for GeneratedField {
@@ -1022,7 +889,6 @@ impl<'de> serde::Deserialize<'de> for ObjectTypeIdentifier {
                         E: serde::de::Error,
                     {
                         match value {
-                            "id" => Ok(GeneratedField::Id),
                             "name" => Ok(GeneratedField::Name),
                             _ => Err(serde::de::Error::unknown_field(value, FIELDS)),
                         }
@@ -1043,18 +909,9 @@ impl<'de> serde::Deserialize<'de> for ObjectTypeIdentifier {
                 where
                     V: serde::de::MapAccess<'de>,
             {
-                let mut id__ = None;
                 let mut name__ = None;
                 while let Some(k) = map.next_key()? {
                     match k {
-                        GeneratedField::Id => {
-                            if id__.is_some() {
-                                return Err(serde::de::Error::duplicate_field("id"));
-                            }
-                            id__ = 
-                                map.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
-                            ;
-                        }
                         GeneratedField::Name => {
                             if name__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("name"));
@@ -1064,7 +921,6 @@ impl<'de> serde::Deserialize<'de> for ObjectTypeIdentifier {
                     }
                 }
                 Ok(ObjectTypeIdentifier {
-                    id: id__,
                     name: name__,
                 })
             }
@@ -1302,9 +1158,6 @@ impl serde::Serialize for Permission {
     {
         use serde::ser::SerializeStruct;
         let mut len = 0;
-        if !self.id.is_empty() {
-            len += 1;
-        }
         if !self.name.is_empty() {
             len += 1;
         }
@@ -1317,16 +1170,10 @@ impl serde::Serialize for Permission {
         if self.updated_at.is_some() {
             len += 1;
         }
-        if self.deleted_at.is_some() {
-            len += 1;
-        }
         if !self.hash.is_empty() {
             len += 1;
         }
         let mut struct_ser = serializer.serialize_struct("aserto.directory.common.v2.Permission", len)?;
-        if !self.id.is_empty() {
-            struct_ser.serialize_field("id", &self.id)?;
-        }
         if !self.name.is_empty() {
             struct_ser.serialize_field("name", &self.name)?;
         }
@@ -1338,9 +1185,6 @@ impl serde::Serialize for Permission {
         }
         if let Some(v) = self.updated_at.as_ref() {
             struct_ser.serialize_field("updatedAt", v)?;
-        }
-        if let Some(v) = self.deleted_at.as_ref() {
-            struct_ser.serialize_field("deletedAt", v)?;
         }
         if !self.hash.is_empty() {
             struct_ser.serialize_field("hash", &self.hash)?;
@@ -1355,7 +1199,6 @@ impl<'de> serde::Deserialize<'de> for Permission {
         D: serde::Deserializer<'de>,
     {
         const FIELDS: &[&str] = &[
-            "id",
             "name",
             "display_name",
             "displayName",
@@ -1363,19 +1206,15 @@ impl<'de> serde::Deserialize<'de> for Permission {
             "createdAt",
             "updated_at",
             "updatedAt",
-            "deleted_at",
-            "deletedAt",
             "hash",
         ];
 
         #[allow(clippy::enum_variant_names)]
         enum GeneratedField {
-            Id,
             Name,
             DisplayName,
             CreatedAt,
             UpdatedAt,
-            DeletedAt,
             Hash,
         }
         impl<'de> serde::Deserialize<'de> for GeneratedField {
@@ -1398,12 +1237,10 @@ impl<'de> serde::Deserialize<'de> for Permission {
                         E: serde::de::Error,
                     {
                         match value {
-                            "id" => Ok(GeneratedField::Id),
                             "name" => Ok(GeneratedField::Name),
                             "displayName" | "display_name" => Ok(GeneratedField::DisplayName),
                             "createdAt" | "created_at" => Ok(GeneratedField::CreatedAt),
                             "updatedAt" | "updated_at" => Ok(GeneratedField::UpdatedAt),
-                            "deletedAt" | "deleted_at" => Ok(GeneratedField::DeletedAt),
                             "hash" => Ok(GeneratedField::Hash),
                             _ => Err(serde::de::Error::unknown_field(value, FIELDS)),
                         }
@@ -1424,21 +1261,13 @@ impl<'de> serde::Deserialize<'de> for Permission {
                 where
                     V: serde::de::MapAccess<'de>,
             {
-                let mut id__ = None;
                 let mut name__ = None;
                 let mut display_name__ = None;
                 let mut created_at__ = None;
                 let mut updated_at__ = None;
-                let mut deleted_at__ = None;
                 let mut hash__ = None;
                 while let Some(k) = map.next_key()? {
                     match k {
-                        GeneratedField::Id => {
-                            if id__.is_some() {
-                                return Err(serde::de::Error::duplicate_field("id"));
-                            }
-                            id__ = Some(map.next_value()?);
-                        }
                         GeneratedField::Name => {
                             if name__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("name"));
@@ -1463,12 +1292,6 @@ impl<'de> serde::Deserialize<'de> for Permission {
                             }
                             updated_at__ = map.next_value()?;
                         }
-                        GeneratedField::DeletedAt => {
-                            if deleted_at__.is_some() {
-                                return Err(serde::de::Error::duplicate_field("deletedAt"));
-                            }
-                            deleted_at__ = map.next_value()?;
-                        }
                         GeneratedField::Hash => {
                             if hash__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("hash"));
@@ -1478,12 +1301,10 @@ impl<'de> serde::Deserialize<'de> for Permission {
                     }
                 }
                 Ok(Permission {
-                    id: id__.unwrap_or_default(),
                     name: name__.unwrap_or_default(),
                     display_name: display_name__.unwrap_or_default(),
                     created_at: created_at__,
                     updated_at: updated_at__,
-                    deleted_at: deleted_at__,
                     hash: hash__.unwrap_or_default(),
                 })
             }
@@ -1499,16 +1320,10 @@ impl serde::Serialize for PermissionIdentifier {
     {
         use serde::ser::SerializeStruct;
         let mut len = 0;
-        if self.id.is_some() {
-            len += 1;
-        }
         if self.name.is_some() {
             len += 1;
         }
         let mut struct_ser = serializer.serialize_struct("aserto.directory.common.v2.PermissionIdentifier", len)?;
-        if let Some(v) = self.id.as_ref() {
-            struct_ser.serialize_field("id", v)?;
-        }
         if let Some(v) = self.name.as_ref() {
             struct_ser.serialize_field("name", v)?;
         }
@@ -1522,13 +1337,11 @@ impl<'de> serde::Deserialize<'de> for PermissionIdentifier {
         D: serde::Deserializer<'de>,
     {
         const FIELDS: &[&str] = &[
-            "id",
             "name",
         ];
 
         #[allow(clippy::enum_variant_names)]
         enum GeneratedField {
-            Id,
             Name,
         }
         impl<'de> serde::Deserialize<'de> for GeneratedField {
@@ -1551,7 +1364,6 @@ impl<'de> serde::Deserialize<'de> for PermissionIdentifier {
                         E: serde::de::Error,
                     {
                         match value {
-                            "id" => Ok(GeneratedField::Id),
                             "name" => Ok(GeneratedField::Name),
                             _ => Err(serde::de::Error::unknown_field(value, FIELDS)),
                         }
@@ -1572,16 +1384,9 @@ impl<'de> serde::Deserialize<'de> for PermissionIdentifier {
                 where
                     V: serde::de::MapAccess<'de>,
             {
-                let mut id__ = None;
                 let mut name__ = None;
                 while let Some(k) = map.next_key()? {
                     match k {
-                        GeneratedField::Id => {
-                            if id__.is_some() {
-                                return Err(serde::de::Error::duplicate_field("id"));
-                            }
-                            id__ = map.next_value()?;
-                        }
                         GeneratedField::Name => {
                             if name__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("name"));
@@ -1591,7 +1396,6 @@ impl<'de> serde::Deserialize<'de> for PermissionIdentifier {
                     }
                 }
                 Ok(PermissionIdentifier {
-                    id: id__,
                     name: name__,
                 })
             }
@@ -1622,9 +1426,6 @@ impl serde::Serialize for Relation {
         if self.updated_at.is_some() {
             len += 1;
         }
-        if self.deleted_at.is_some() {
-            len += 1;
-        }
         if !self.hash.is_empty() {
             len += 1;
         }
@@ -1643,9 +1444,6 @@ impl serde::Serialize for Relation {
         }
         if let Some(v) = self.updated_at.as_ref() {
             struct_ser.serialize_field("updatedAt", v)?;
-        }
-        if let Some(v) = self.deleted_at.as_ref() {
-            struct_ser.serialize_field("deletedAt", v)?;
         }
         if !self.hash.is_empty() {
             struct_ser.serialize_field("hash", &self.hash)?;
@@ -1667,8 +1465,6 @@ impl<'de> serde::Deserialize<'de> for Relation {
             "createdAt",
             "updated_at",
             "updatedAt",
-            "deleted_at",
-            "deletedAt",
             "hash",
         ];
 
@@ -1679,7 +1475,6 @@ impl<'de> serde::Deserialize<'de> for Relation {
             Object,
             CreatedAt,
             UpdatedAt,
-            DeletedAt,
             Hash,
         }
         impl<'de> serde::Deserialize<'de> for GeneratedField {
@@ -1707,7 +1502,6 @@ impl<'de> serde::Deserialize<'de> for Relation {
                             "object" => Ok(GeneratedField::Object),
                             "createdAt" | "created_at" => Ok(GeneratedField::CreatedAt),
                             "updatedAt" | "updated_at" => Ok(GeneratedField::UpdatedAt),
-                            "deletedAt" | "deleted_at" => Ok(GeneratedField::DeletedAt),
                             "hash" => Ok(GeneratedField::Hash),
                             _ => Err(serde::de::Error::unknown_field(value, FIELDS)),
                         }
@@ -1733,7 +1527,6 @@ impl<'de> serde::Deserialize<'de> for Relation {
                 let mut object__ = None;
                 let mut created_at__ = None;
                 let mut updated_at__ = None;
-                let mut deleted_at__ = None;
                 let mut hash__ = None;
                 while let Some(k) = map.next_key()? {
                     match k {
@@ -1767,12 +1560,6 @@ impl<'de> serde::Deserialize<'de> for Relation {
                             }
                             updated_at__ = map.next_value()?;
                         }
-                        GeneratedField::DeletedAt => {
-                            if deleted_at__.is_some() {
-                                return Err(serde::de::Error::duplicate_field("deletedAt"));
-                            }
-                            deleted_at__ = map.next_value()?;
-                        }
                         GeneratedField::Hash => {
                             if hash__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("hash"));
@@ -1787,7 +1574,6 @@ impl<'de> serde::Deserialize<'de> for Relation {
                     object: object__,
                     created_at: created_at__,
                     updated_at: updated_at__,
-                    deleted_at: deleted_at__,
                     hash: hash__.unwrap_or_default(),
                 })
             }
@@ -1928,9 +1714,6 @@ impl serde::Serialize for RelationType {
     {
         use serde::ser::SerializeStruct;
         let mut len = 0;
-        if self.id != 0 {
-            len += 1;
-        }
         if !self.name.is_empty() {
             len += 1;
         }
@@ -1958,16 +1741,10 @@ impl serde::Serialize for RelationType {
         if self.updated_at.is_some() {
             len += 1;
         }
-        if self.deleted_at.is_some() {
-            len += 1;
-        }
         if !self.hash.is_empty() {
             len += 1;
         }
         let mut struct_ser = serializer.serialize_struct("aserto.directory.common.v2.RelationType", len)?;
-        if self.id != 0 {
-            struct_ser.serialize_field("id", &self.id)?;
-        }
         if !self.name.is_empty() {
             struct_ser.serialize_field("name", &self.name)?;
         }
@@ -1995,9 +1772,6 @@ impl serde::Serialize for RelationType {
         if let Some(v) = self.updated_at.as_ref() {
             struct_ser.serialize_field("updatedAt", v)?;
         }
-        if let Some(v) = self.deleted_at.as_ref() {
-            struct_ser.serialize_field("deletedAt", v)?;
-        }
         if !self.hash.is_empty() {
             struct_ser.serialize_field("hash", &self.hash)?;
         }
@@ -2011,7 +1785,6 @@ impl<'de> serde::Deserialize<'de> for RelationType {
         D: serde::Deserializer<'de>,
     {
         const FIELDS: &[&str] = &[
-            "id",
             "name",
             "object_type",
             "objectType",
@@ -2025,14 +1798,11 @@ impl<'de> serde::Deserialize<'de> for RelationType {
             "createdAt",
             "updated_at",
             "updatedAt",
-            "deleted_at",
-            "deletedAt",
             "hash",
         ];
 
         #[allow(clippy::enum_variant_names)]
         enum GeneratedField {
-            Id,
             Name,
             ObjectType,
             DisplayName,
@@ -2042,7 +1812,6 @@ impl<'de> serde::Deserialize<'de> for RelationType {
             Permissions,
             CreatedAt,
             UpdatedAt,
-            DeletedAt,
             Hash,
         }
         impl<'de> serde::Deserialize<'de> for GeneratedField {
@@ -2065,7 +1834,6 @@ impl<'de> serde::Deserialize<'de> for RelationType {
                         E: serde::de::Error,
                     {
                         match value {
-                            "id" => Ok(GeneratedField::Id),
                             "name" => Ok(GeneratedField::Name),
                             "objectType" | "object_type" => Ok(GeneratedField::ObjectType),
                             "displayName" | "display_name" => Ok(GeneratedField::DisplayName),
@@ -2075,7 +1843,6 @@ impl<'de> serde::Deserialize<'de> for RelationType {
                             "permissions" => Ok(GeneratedField::Permissions),
                             "createdAt" | "created_at" => Ok(GeneratedField::CreatedAt),
                             "updatedAt" | "updated_at" => Ok(GeneratedField::UpdatedAt),
-                            "deletedAt" | "deleted_at" => Ok(GeneratedField::DeletedAt),
                             "hash" => Ok(GeneratedField::Hash),
                             _ => Err(serde::de::Error::unknown_field(value, FIELDS)),
                         }
@@ -2096,7 +1863,6 @@ impl<'de> serde::Deserialize<'de> for RelationType {
                 where
                     V: serde::de::MapAccess<'de>,
             {
-                let mut id__ = None;
                 let mut name__ = None;
                 let mut object_type__ = None;
                 let mut display_name__ = None;
@@ -2106,18 +1872,9 @@ impl<'de> serde::Deserialize<'de> for RelationType {
                 let mut permissions__ = None;
                 let mut created_at__ = None;
                 let mut updated_at__ = None;
-                let mut deleted_at__ = None;
                 let mut hash__ = None;
                 while let Some(k) = map.next_key()? {
                     match k {
-                        GeneratedField::Id => {
-                            if id__.is_some() {
-                                return Err(serde::de::Error::duplicate_field("id"));
-                            }
-                            id__ = 
-                                Some(map.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
-                            ;
-                        }
                         GeneratedField::Name => {
                             if name__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("name"));
@@ -2176,12 +1933,6 @@ impl<'de> serde::Deserialize<'de> for RelationType {
                             }
                             updated_at__ = map.next_value()?;
                         }
-                        GeneratedField::DeletedAt => {
-                            if deleted_at__.is_some() {
-                                return Err(serde::de::Error::duplicate_field("deletedAt"));
-                            }
-                            deleted_at__ = map.next_value()?;
-                        }
                         GeneratedField::Hash => {
                             if hash__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("hash"));
@@ -2191,7 +1942,6 @@ impl<'de> serde::Deserialize<'de> for RelationType {
                     }
                 }
                 Ok(RelationType {
-                    id: id__.unwrap_or_default(),
                     name: name__.unwrap_or_default(),
                     object_type: object_type__.unwrap_or_default(),
                     display_name: display_name__.unwrap_or_default(),
@@ -2201,7 +1951,6 @@ impl<'de> serde::Deserialize<'de> for RelationType {
                     permissions: permissions__.unwrap_or_default(),
                     created_at: created_at__,
                     updated_at: updated_at__,
-                    deleted_at: deleted_at__,
                     hash: hash__.unwrap_or_default(),
                 })
             }
@@ -2217,9 +1966,6 @@ impl serde::Serialize for RelationTypeIdentifier {
     {
         use serde::ser::SerializeStruct;
         let mut len = 0;
-        if self.id.is_some() {
-            len += 1;
-        }
         if self.name.is_some() {
             len += 1;
         }
@@ -2227,9 +1973,6 @@ impl serde::Serialize for RelationTypeIdentifier {
             len += 1;
         }
         let mut struct_ser = serializer.serialize_struct("aserto.directory.common.v2.RelationTypeIdentifier", len)?;
-        if let Some(v) = self.id.as_ref() {
-            struct_ser.serialize_field("id", v)?;
-        }
         if let Some(v) = self.name.as_ref() {
             struct_ser.serialize_field("name", v)?;
         }
@@ -2246,7 +1989,6 @@ impl<'de> serde::Deserialize<'de> for RelationTypeIdentifier {
         D: serde::Deserializer<'de>,
     {
         const FIELDS: &[&str] = &[
-            "id",
             "name",
             "object_type",
             "objectType",
@@ -2254,7 +1996,6 @@ impl<'de> serde::Deserialize<'de> for RelationTypeIdentifier {
 
         #[allow(clippy::enum_variant_names)]
         enum GeneratedField {
-            Id,
             Name,
             ObjectType,
         }
@@ -2278,7 +2019,6 @@ impl<'de> serde::Deserialize<'de> for RelationTypeIdentifier {
                         E: serde::de::Error,
                     {
                         match value {
-                            "id" => Ok(GeneratedField::Id),
                             "name" => Ok(GeneratedField::Name),
                             "objectType" | "object_type" => Ok(GeneratedField::ObjectType),
                             _ => Err(serde::de::Error::unknown_field(value, FIELDS)),
@@ -2300,19 +2040,10 @@ impl<'de> serde::Deserialize<'de> for RelationTypeIdentifier {
                 where
                     V: serde::de::MapAccess<'de>,
             {
-                let mut id__ = None;
                 let mut name__ = None;
                 let mut object_type__ = None;
                 while let Some(k) = map.next_key()? {
                     match k {
-                        GeneratedField::Id => {
-                            if id__.is_some() {
-                                return Err(serde::de::Error::duplicate_field("id"));
-                            }
-                            id__ = 
-                                map.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
-                            ;
-                        }
                         GeneratedField::Name => {
                             if name__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("name"));
@@ -2328,7 +2059,6 @@ impl<'de> serde::Deserialize<'de> for RelationTypeIdentifier {
                     }
                 }
                 Ok(RelationTypeIdentifier {
-                    id: id__,
                     name: name__,
                     object_type: object_type__,
                 })

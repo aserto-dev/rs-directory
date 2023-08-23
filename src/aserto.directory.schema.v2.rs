@@ -2,7 +2,7 @@
 /// Properties of "group" objects.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GroupProperties {
-    /// ID of the IDP connection the group is associated with.
+    /// ID of the IDP connection the group instance is associated with.
     #[prost(string, tag="1")]
     pub connection_id: ::prost::alloc::string::String,
 }
@@ -35,7 +35,7 @@ pub enum IdentityKind {
     Username = 3,
     /// distinguished name format RFC1779
     Dn = 4,
-    /// phonenumber using the format described in RFC3966, +1-201-555-0111 (without the tel: prefix)
+    /// phone number using the format described in RFC3966, using the E.164 recommendation
     Phone = 5,
     /// employee identifier
     Empid = 6,
@@ -57,6 +57,66 @@ impl IdentityKind {
         }
     }
 }
+/// Properties of a tenant object
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TenantProperties {
+    /// The kind of tenant.
+    #[prost(enumeration="TenantKind", tag="1")]
+    pub kind: i32,
+    /// Whether or not the v2 directory experience enabled for this tenant.
+    #[prost(bool, tag="2")]
+    pub directory_v2: bool,
+    /// If true, the tenant cannot be reverted to the v1 directory experience.
+    #[prost(bool, tag="3")]
+    pub directory_v2_only: bool,
+    /// Additional properties that are only set accounts (personal tennats).
+    #[prost(message, optional, tag="4")]
+    pub account: ::core::option::Option<AccountProperties>,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AccountProperties {
+    /// Maximum number of organizations that can be created in this account.
+    /// If -1, there is no limit.
+    #[prost(int32, tag="1")]
+    pub max_orgs: i32,
+    /// Tracks the account owner's progress through the getting-started guide.
+    #[prost(message, optional, tag="3")]
+    pub getting_started: ::core::option::Option<GuideState>,
+    /// The default organization for the account
+    #[prost(string, tag="4")]
+    pub default_tenant_id: ::prost::alloc::string::String,
+}
+/// The state of a user's progress through the console's getting started guide.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GuideState {
+    /// Whether or not to display the getting started guide.
+    #[prost(bool, tag="1")]
+    pub show: bool,
+    /// Progress information about individual steps in the guide.
+    #[prost(message, optional, tag="2")]
+    pub steps: ::core::option::Option<::pbjson_types::Struct>,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum TenantKind {
+    Unknown = 0,
+    Organization = 1,
+    /// personal tenant
+    Account = 2,
+}
+impl TenantKind {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            TenantKind::Unknown => "TENANT_KIND_UNKNOWN",
+            TenantKind::Organization => "TENANT_KIND_ORGANIZATION",
+            TenantKind::Account => "TENANT_KIND_ACCOUNT",
+        }
+    }
+}
 /// Properties of "user" objects.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UserProperties {
@@ -72,7 +132,7 @@ pub struct UserProperties {
     /// enabled (false prevents the user from accessing anything)
     #[prost(bool, tag="4")]
     pub enabled: bool,
-    /// ID of the IDP connection the user is associated with.
+    /// ID of the IDP connection the user instance is associated with.
     #[prost(string, tag="5")]
     pub connection_id: ::prost::alloc::string::String,
 }
@@ -86,12 +146,11 @@ pub enum UserStatus {
     /// Provisioned status, is when the user object is provisioned, but the user has not provided verification by clicking through the activation email or provided a password.
     Provisioned = 2,
     /// Active status, is when:
-    Active = 3,
     ///   * An admin adds a user and sets the user password without requiring email verification.
     ///   * An admin adds a user, sets the user password, and requires the user to set their password when they first sign-in.
     ///   * A user self-registers into a custom app or IDP and email verification is not required.
     ///   * An admin explicitly activates the user.
-    ///
+    Active = 3,
     /// Recovery status, when the user requests a password reset or an admin initiates one on their behalf.
     Recovery = 4,
     /// Password expired, status when the users' password has expired and the account requires an update to the password before a user is granted access.

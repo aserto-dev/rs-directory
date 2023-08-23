@@ -49,7 +49,7 @@ pub enum Option {
     Metadata = 7,
     /// object instances
     DataObjects = 8,
-    /// relation instances with id values
+    /// relation instances
     DataRelations = 16,
     /// relation instances with key values
     DataRelationsWithKeys = 32,

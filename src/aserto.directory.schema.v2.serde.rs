@@ -1,4 +1,134 @@
 // @generated
+impl serde::Serialize for AccountProperties {
+    #[allow(deprecated)]
+    fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        use serde::ser::SerializeStruct;
+        let mut len = 0;
+        if self.max_orgs != 0 {
+            len += 1;
+        }
+        if self.getting_started.is_some() {
+            len += 1;
+        }
+        if !self.default_tenant_id.is_empty() {
+            len += 1;
+        }
+        let mut struct_ser = serializer.serialize_struct("aserto.directory.schema.v2.AccountProperties", len)?;
+        if self.max_orgs != 0 {
+            struct_ser.serialize_field("maxOrgs", &self.max_orgs)?;
+        }
+        if let Some(v) = self.getting_started.as_ref() {
+            struct_ser.serialize_field("gettingStarted", v)?;
+        }
+        if !self.default_tenant_id.is_empty() {
+            struct_ser.serialize_field("defaultTenantId", &self.default_tenant_id)?;
+        }
+        struct_ser.end()
+    }
+}
+impl<'de> serde::Deserialize<'de> for AccountProperties {
+    #[allow(deprecated)]
+    fn deserialize<D>(deserializer: D) -> std::result::Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        const FIELDS: &[&str] = &[
+            "max_orgs",
+            "maxOrgs",
+            "getting_started",
+            "gettingStarted",
+            "default_tenant_id",
+            "defaultTenantId",
+        ];
+
+        #[allow(clippy::enum_variant_names)]
+        enum GeneratedField {
+            MaxOrgs,
+            GettingStarted,
+            DefaultTenantId,
+        }
+        impl<'de> serde::Deserialize<'de> for GeneratedField {
+            fn deserialize<D>(deserializer: D) -> std::result::Result<GeneratedField, D::Error>
+            where
+                D: serde::Deserializer<'de>,
+            {
+                struct GeneratedVisitor;
+
+                impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+                    type Value = GeneratedField;
+
+                    fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                        write!(formatter, "expected one of: {:?}", &FIELDS)
+                    }
+
+                    #[allow(unused_variables)]
+                    fn visit_str<E>(self, value: &str) -> std::result::Result<GeneratedField, E>
+                    where
+                        E: serde::de::Error,
+                    {
+                        match value {
+                            "maxOrgs" | "max_orgs" => Ok(GeneratedField::MaxOrgs),
+                            "gettingStarted" | "getting_started" => Ok(GeneratedField::GettingStarted),
+                            "defaultTenantId" | "default_tenant_id" => Ok(GeneratedField::DefaultTenantId),
+                            _ => Err(serde::de::Error::unknown_field(value, FIELDS)),
+                        }
+                    }
+                }
+                deserializer.deserialize_identifier(GeneratedVisitor)
+            }
+        }
+        struct GeneratedVisitor;
+        impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+            type Value = AccountProperties;
+
+            fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                formatter.write_str("struct aserto.directory.schema.v2.AccountProperties")
+            }
+
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<AccountProperties, V::Error>
+                where
+                    V: serde::de::MapAccess<'de>,
+            {
+                let mut max_orgs__ = None;
+                let mut getting_started__ = None;
+                let mut default_tenant_id__ = None;
+                while let Some(k) = map.next_key()? {
+                    match k {
+                        GeneratedField::MaxOrgs => {
+                            if max_orgs__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("maxOrgs"));
+                            }
+                            max_orgs__ = 
+                                Some(map.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
+                            ;
+                        }
+                        GeneratedField::GettingStarted => {
+                            if getting_started__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("gettingStarted"));
+                            }
+                            getting_started__ = map.next_value()?;
+                        }
+                        GeneratedField::DefaultTenantId => {
+                            if default_tenant_id__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("defaultTenantId"));
+                            }
+                            default_tenant_id__ = Some(map.next_value()?);
+                        }
+                    }
+                }
+                Ok(AccountProperties {
+                    max_orgs: max_orgs__.unwrap_or_default(),
+                    getting_started: getting_started__,
+                    default_tenant_id: default_tenant_id__.unwrap_or_default(),
+                })
+            }
+        }
+        deserializer.deserialize_struct("aserto.directory.schema.v2.AccountProperties", FIELDS, GeneratedVisitor)
+    }
+}
 impl serde::Serialize for GroupProperties {
     #[allow(deprecated)]
     fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
@@ -89,6 +219,114 @@ impl<'de> serde::Deserialize<'de> for GroupProperties {
             }
         }
         deserializer.deserialize_struct("aserto.directory.schema.v2.GroupProperties", FIELDS, GeneratedVisitor)
+    }
+}
+impl serde::Serialize for GuideState {
+    #[allow(deprecated)]
+    fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        use serde::ser::SerializeStruct;
+        let mut len = 0;
+        if self.show {
+            len += 1;
+        }
+        if self.steps.is_some() {
+            len += 1;
+        }
+        let mut struct_ser = serializer.serialize_struct("aserto.directory.schema.v2.GuideState", len)?;
+        if self.show {
+            struct_ser.serialize_field("show", &self.show)?;
+        }
+        if let Some(v) = self.steps.as_ref() {
+            struct_ser.serialize_field("steps", v)?;
+        }
+        struct_ser.end()
+    }
+}
+impl<'de> serde::Deserialize<'de> for GuideState {
+    #[allow(deprecated)]
+    fn deserialize<D>(deserializer: D) -> std::result::Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        const FIELDS: &[&str] = &[
+            "show",
+            "steps",
+        ];
+
+        #[allow(clippy::enum_variant_names)]
+        enum GeneratedField {
+            Show,
+            Steps,
+        }
+        impl<'de> serde::Deserialize<'de> for GeneratedField {
+            fn deserialize<D>(deserializer: D) -> std::result::Result<GeneratedField, D::Error>
+            where
+                D: serde::Deserializer<'de>,
+            {
+                struct GeneratedVisitor;
+
+                impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+                    type Value = GeneratedField;
+
+                    fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                        write!(formatter, "expected one of: {:?}", &FIELDS)
+                    }
+
+                    #[allow(unused_variables)]
+                    fn visit_str<E>(self, value: &str) -> std::result::Result<GeneratedField, E>
+                    where
+                        E: serde::de::Error,
+                    {
+                        match value {
+                            "show" => Ok(GeneratedField::Show),
+                            "steps" => Ok(GeneratedField::Steps),
+                            _ => Err(serde::de::Error::unknown_field(value, FIELDS)),
+                        }
+                    }
+                }
+                deserializer.deserialize_identifier(GeneratedVisitor)
+            }
+        }
+        struct GeneratedVisitor;
+        impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+            type Value = GuideState;
+
+            fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                formatter.write_str("struct aserto.directory.schema.v2.GuideState")
+            }
+
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<GuideState, V::Error>
+                where
+                    V: serde::de::MapAccess<'de>,
+            {
+                let mut show__ = None;
+                let mut steps__ = None;
+                while let Some(k) = map.next_key()? {
+                    match k {
+                        GeneratedField::Show => {
+                            if show__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("show"));
+                            }
+                            show__ = Some(map.next_value()?);
+                        }
+                        GeneratedField::Steps => {
+                            if steps__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("steps"));
+                            }
+                            steps__ = map.next_value()?;
+                        }
+                    }
+                }
+                Ok(GuideState {
+                    show: show__.unwrap_or_default(),
+                    steps: steps__,
+                })
+            }
+        }
+        deserializer.deserialize_struct("aserto.directory.schema.v2.GuideState", FIELDS, GeneratedVisitor)
     }
 }
 impl serde::Serialize for IdentityKind {
@@ -322,6 +560,228 @@ impl<'de> serde::Deserialize<'de> for IdentityProperties {
             }
         }
         deserializer.deserialize_struct("aserto.directory.schema.v2.IdentityProperties", FIELDS, GeneratedVisitor)
+    }
+}
+impl serde::Serialize for TenantKind {
+    #[allow(deprecated)]
+    fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let variant = match self {
+            Self::Unknown => "TENANT_KIND_UNKNOWN",
+            Self::Organization => "TENANT_KIND_ORGANIZATION",
+            Self::Account => "TENANT_KIND_ACCOUNT",
+        };
+        serializer.serialize_str(variant)
+    }
+}
+impl<'de> serde::Deserialize<'de> for TenantKind {
+    #[allow(deprecated)]
+    fn deserialize<D>(deserializer: D) -> std::result::Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        const FIELDS: &[&str] = &[
+            "TENANT_KIND_UNKNOWN",
+            "TENANT_KIND_ORGANIZATION",
+            "TENANT_KIND_ACCOUNT",
+        ];
+
+        struct GeneratedVisitor;
+
+        impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+            type Value = TenantKind;
+
+            fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                write!(formatter, "expected one of: {:?}", &FIELDS)
+            }
+
+            fn visit_i64<E>(self, v: i64) -> std::result::Result<Self::Value, E>
+            where
+                E: serde::de::Error,
+            {
+                use std::convert::TryFrom;
+                i32::try_from(v)
+                    .ok()
+                    .and_then(TenantKind::from_i32)
+                    .ok_or_else(|| {
+                        serde::de::Error::invalid_value(serde::de::Unexpected::Signed(v), &self)
+                    })
+            }
+
+            fn visit_u64<E>(self, v: u64) -> std::result::Result<Self::Value, E>
+            where
+                E: serde::de::Error,
+            {
+                use std::convert::TryFrom;
+                i32::try_from(v)
+                    .ok()
+                    .and_then(TenantKind::from_i32)
+                    .ok_or_else(|| {
+                        serde::de::Error::invalid_value(serde::de::Unexpected::Unsigned(v), &self)
+                    })
+            }
+
+            fn visit_str<E>(self, value: &str) -> std::result::Result<Self::Value, E>
+            where
+                E: serde::de::Error,
+            {
+                match value {
+                    "TENANT_KIND_UNKNOWN" => Ok(TenantKind::Unknown),
+                    "TENANT_KIND_ORGANIZATION" => Ok(TenantKind::Organization),
+                    "TENANT_KIND_ACCOUNT" => Ok(TenantKind::Account),
+                    _ => Err(serde::de::Error::unknown_variant(value, FIELDS)),
+                }
+            }
+        }
+        deserializer.deserialize_any(GeneratedVisitor)
+    }
+}
+impl serde::Serialize for TenantProperties {
+    #[allow(deprecated)]
+    fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        use serde::ser::SerializeStruct;
+        let mut len = 0;
+        if self.kind != 0 {
+            len += 1;
+        }
+        if self.directory_v2 {
+            len += 1;
+        }
+        if self.directory_v2_only {
+            len += 1;
+        }
+        if self.account.is_some() {
+            len += 1;
+        }
+        let mut struct_ser = serializer.serialize_struct("aserto.directory.schema.v2.TenantProperties", len)?;
+        if self.kind != 0 {
+            let v = TenantKind::from_i32(self.kind)
+                .ok_or_else(|| serde::ser::Error::custom(format!("Invalid variant {}", self.kind)))?;
+            struct_ser.serialize_field("kind", &v)?;
+        }
+        if self.directory_v2 {
+            struct_ser.serialize_field("directoryV2", &self.directory_v2)?;
+        }
+        if self.directory_v2_only {
+            struct_ser.serialize_field("directoryV2Only", &self.directory_v2_only)?;
+        }
+        if let Some(v) = self.account.as_ref() {
+            struct_ser.serialize_field("account", v)?;
+        }
+        struct_ser.end()
+    }
+}
+impl<'de> serde::Deserialize<'de> for TenantProperties {
+    #[allow(deprecated)]
+    fn deserialize<D>(deserializer: D) -> std::result::Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        const FIELDS: &[&str] = &[
+            "kind",
+            "directory_v2",
+            "directoryV2",
+            "directory_v2_only",
+            "directoryV2Only",
+            "account",
+        ];
+
+        #[allow(clippy::enum_variant_names)]
+        enum GeneratedField {
+            Kind,
+            DirectoryV2,
+            DirectoryV2Only,
+            Account,
+        }
+        impl<'de> serde::Deserialize<'de> for GeneratedField {
+            fn deserialize<D>(deserializer: D) -> std::result::Result<GeneratedField, D::Error>
+            where
+                D: serde::Deserializer<'de>,
+            {
+                struct GeneratedVisitor;
+
+                impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+                    type Value = GeneratedField;
+
+                    fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                        write!(formatter, "expected one of: {:?}", &FIELDS)
+                    }
+
+                    #[allow(unused_variables)]
+                    fn visit_str<E>(self, value: &str) -> std::result::Result<GeneratedField, E>
+                    where
+                        E: serde::de::Error,
+                    {
+                        match value {
+                            "kind" => Ok(GeneratedField::Kind),
+                            "directoryV2" | "directory_v2" => Ok(GeneratedField::DirectoryV2),
+                            "directoryV2Only" | "directory_v2_only" => Ok(GeneratedField::DirectoryV2Only),
+                            "account" => Ok(GeneratedField::Account),
+                            _ => Err(serde::de::Error::unknown_field(value, FIELDS)),
+                        }
+                    }
+                }
+                deserializer.deserialize_identifier(GeneratedVisitor)
+            }
+        }
+        struct GeneratedVisitor;
+        impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+            type Value = TenantProperties;
+
+            fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                formatter.write_str("struct aserto.directory.schema.v2.TenantProperties")
+            }
+
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<TenantProperties, V::Error>
+                where
+                    V: serde::de::MapAccess<'de>,
+            {
+                let mut kind__ = None;
+                let mut directory_v2__ = None;
+                let mut directory_v2_only__ = None;
+                let mut account__ = None;
+                while let Some(k) = map.next_key()? {
+                    match k {
+                        GeneratedField::Kind => {
+                            if kind__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("kind"));
+                            }
+                            kind__ = Some(map.next_value::<TenantKind>()? as i32);
+                        }
+                        GeneratedField::DirectoryV2 => {
+                            if directory_v2__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("directoryV2"));
+                            }
+                            directory_v2__ = Some(map.next_value()?);
+                        }
+                        GeneratedField::DirectoryV2Only => {
+                            if directory_v2_only__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("directoryV2Only"));
+                            }
+                            directory_v2_only__ = Some(map.next_value()?);
+                        }
+                        GeneratedField::Account => {
+                            if account__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("account"));
+                            }
+                            account__ = map.next_value()?;
+                        }
+                    }
+                }
+                Ok(TenantProperties {
+                    kind: kind__.unwrap_or_default(),
+                    directory_v2: directory_v2__.unwrap_or_default(),
+                    directory_v2_only: directory_v2_only__.unwrap_or_default(),
+                    account: account__,
+                })
+            }
+        }
+        deserializer.deserialize_struct("aserto.directory.schema.v2.TenantProperties", FIELDS, GeneratedVisitor)
     }
 }
 impl serde::Serialize for UserProperties {
